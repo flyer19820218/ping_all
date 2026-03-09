@@ -1,0 +1,34 @@
+name: Wake Up & Keep Active
+
+on:
+  schedule:
+    # 建議每小時執行一次即可，搭配實體 Commit 絕對夠用
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  ping_and_commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          
+      - name: Install dependencies
+        run: pip install requests
+        
+      # 執行你剛才寫好的 Python 腳本
+      - name: Run Ping & Generate Heartbeat
+        run: python ping_all.py
+        
+      # 🌟 核心動作：將 Python 產生的變更推播回 GitHub
+      - name: Commit and Push Heartbeat
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-maintenance: System heartbeat update"
+          file_pattern: "system_heartbeat.txt"
