@@ -1,34 +1,53 @@
-name: Wake Up & Keep Active
+name: Browser-based Streamlit keep-alive
 
 on:
   schedule:
-    # 建議每小時執行一次即可，搭配實體 Commit 絕對夠用
-    - cron: '0 * * * *'
+    # Every four hours, offset from the top of the hour to reduce scheduler delays.
+    - cron: "17 */4 * * *"
   workflow_dispatch:
+    inputs:
+      target_urls:
+        description: "Optional: one or more HTTPS app URLs, separated by spaces or commas"
+        required: false
+        type: string
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: streamlit-keep-alive
+  cancel-in-progress: false
 
 jobs:
-  ping_and_commit:
+  wake-apps:
+    name: Wake Streamlit apps in Chromium
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      
-      - uses: actions/setup-python@v5
+      - name: Check out the keep-alive code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-          
-      - name: Install dependencies
-        run: pip install requests
-        
-      # 執行你剛才寫好的 Python 腳本
-      - name: Run Ping & Generate Heartbeat
+          python-version: "3.12"
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+
+      - name: Install browser automation
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Visit apps and wake sleeping instances
+        env:
+          # Optional. Store only existing Playwright storage-state JSON in this
+          # GitHub Secret when private apps must be visited. Never store a password.
+          STREAMLIT_STORAGE_STATE: ${{ secrets.STREAMLIT_STORAGE_STATE }}
+          TARGET_URLS: ${{ inputs.target_urls }}
         run: python ping_all.py
-        
-      # 🌟 核心動作：將 Python 產生的變更推播回 GitHub
-      - name: Commit and Push Heartbeat
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Auto-maintenance: System heartbeat update"
-          file_pattern: "system_heartbeat.txt"
