@@ -50,15 +50,18 @@ you usually do, completing two-step verification if requested. Leave Chrome
 signed in. That Mac must be configured not to sleep
 while it is plugged in.
 
-1. Test the Chrome visit script. It opens or refreshes one tab per target app:
+1. Open the apps you want to maintain in Chrome manually, completing two-step
+   verification where required. Then test the Chrome visit script. It refreshes
+   existing app tabs only; it deliberately never creates a new tab or changes
+   your active app:
 
    ```sh
    osascript chrome_keep_alive.applescript
    ```
 
    If an app is already sleeping, Chrome will show Streamlit's sleeping page.
-   Click its wake button manually once. Subsequent six-hour Chrome visits keep
-   the app active without an automated login.
+   Click its wake button manually once. Subsequent six-hour Chrome refreshes
+   keep the app active without an automated login.
 
 2. Enable the six-hour macOS schedule. Copy
    `launchd/com.user.streamlit-keep-alive.plist` to

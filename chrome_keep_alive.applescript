@@ -1,6 +1,6 @@
 -- Streamlit keep-alive using the normal Google Chrome profile on this Mac.
 -- Sign in and complete two-step verification manually in Chrome once. This
--- script only opens or refreshes tabs; it never handles credentials or MFA.
+-- script only refreshes existing tabs; it never handles credentials or MFA.
 
 property targetURLs : {¬
     "https://financedailynews-mobile.streamlit.app/", ¬
@@ -39,17 +39,10 @@ on refreshURL(targetURL)
             if didRefresh then exit repeat
         end repeat
 
-        if not didRefresh then
-            if (count of windows) is 0 then
-                make new window with properties {URL:targetURL}
-            else
-                tell window 1 to make new tab with properties {URL:targetURL}
-            end if
-        end if
     end tell
 
     if didRefresh then return "refreshed " & targetURL
-    return "opened " & targetURL
+    return "skipped (open this app manually in Chrome first) " & targetURL
 end refreshURL
 
 on joinLines(lineList)
