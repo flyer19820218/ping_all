@@ -1,5 +1,6 @@
--- Streamlit keep-alive using the normal Safari profile on this Mac.
--- It never handles a password, cookie, Google login, or browser automation.
+-- Streamlit keep-alive using the normal Google Chrome profile on this Mac.
+-- Sign in and complete two-step verification manually in Chrome once. This
+-- script only opens or refreshes tabs; it never handles credentials or MFA.
 
 property targetURLs : {¬
     "https://financedailynews-mobile.streamlit.app/", ¬
@@ -9,10 +10,18 @@ property targetURLs : {¬
     "https://ai-earthscience-lab.streamlit.app/", ¬
     "https://finance-daily-news.streamlit.app/", ¬
     "https://science-truth-portal.streamlit.app/", ¬
-    "https://science-ai-lab.streamlit.app/"}
+    "https://science-ai-lab.streamlit.app/", ¬
+    "https://bookmoney-web.streamlit.app/", ¬
+    "https://scienceisveryeasy-diag.streamlit.app/", ¬
+    "https://claappne-mobile.streamlit.app/", ¬
+    "https://learning-diagnosis-web.streamlit.app/", ¬
+    "https://scienceisveryeasy-mobile.streamlit.app/", ¬
+    "https://thelast60days-ipad.streamlit.app/", ¬
+    "https://thelast60days-web.streamlit.app/", ¬
+    "https://tryagents-web.streamlit.app/"}
 
 on refreshURL(targetURL)
-    tell application "Safari"
+    tell application "Google Chrome"
         set didRefresh to false
 
         -- Reuse a matching tab so the schedule does not create endless tabs.
@@ -32,7 +41,7 @@ on refreshURL(targetURL)
 
         if not didRefresh then
             if (count of windows) is 0 then
-                make new document with properties {URL:targetURL}
+                make new window with properties {URL:targetURL}
             else
                 tell window 1 to make new tab with properties {URL:targetURL}
             end if
@@ -58,7 +67,7 @@ repeat with targetURL in targetURLs
         set end of results to "failed " & (contents of targetURL) & " (" & errorNumber & "): " & errorMessage
     end try
 
-    -- Allow each normal Safari navigation to start before visiting the next app.
+    -- Allow each normal Chrome navigation to start before visiting the next app.
     delay 5
 end repeat
 

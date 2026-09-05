@@ -8,7 +8,7 @@
   <key>ProgramArguments</key>
   <array>
     <string>/usr/bin/osascript</string>
-    <string>__REPOSITORY__/safari_keep_alive.applescript</string>
+    <string>__REPOSITORY__/chrome_keep_alive.applescript</string>
   </array>
 
   <key>WorkingDirectory</key>

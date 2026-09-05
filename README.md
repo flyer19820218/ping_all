@@ -4,8 +4,8 @@ This repository keeps Streamlit Community Cloud apps awake with Chromium, not a
 simple HTTP request. If an app is asleep, it clicks Streamlit's wake button and
 waits for the actual Streamlit app container to appear.
 
-For private apps, the recommended option is the **Mac mini Safari runner** below.
-It uses your normal Safari session on that Mac and never asks Google to sign in
+For private apps, the recommended option is the **Mac mini Chrome runner** below.
+It uses your normal Chrome session on that Mac and never asks Google to sign in
 through an automation browser.
 
 ## Why the previous workflow reported success when it had not worked
@@ -42,21 +42,22 @@ the runner the same app-viewing access as that browser session and may expire.
 For sensitive grade apps, it is safer to let them sleep than to give a cloud
 automation runner an authenticated session.
 
-## Recommended: use normal Safari on your Mac mini
+## Recommended: use normal Google Chrome on your Mac mini
 
 This needs no Python, Chromium, GitHub Secret, or automated Google login.
-First, open Safari normally on the Mac mini and sign in to Streamlit as you
-usually do. Leave Safari signed in. That Mac must be configured not to sleep
+First, open Google Chrome normally on the Mac mini and sign in to Streamlit as
+you usually do, completing two-step verification if requested. Leave Chrome
+signed in. That Mac must be configured not to sleep
 while it is plugged in.
 
-1. Test the Safari visit script. It opens or refreshes one tab per target app:
+1. Test the Chrome visit script. It opens or refreshes one tab per target app:
 
    ```sh
-   osascript safari_keep_alive.applescript
+   osascript chrome_keep_alive.applescript
    ```
 
-   If an app is already sleeping, Safari will show Streamlit's sleeping page.
-   Click its wake button manually once. Subsequent six-hour Safari visits keep
+   If an app is already sleeping, Chrome will show Streamlit's sleeping page.
+   Click its wake button manually once. Subsequent six-hour Chrome visits keep
    the app active without an automated login.
 
 2. Enable the six-hour macOS schedule. Copy
@@ -72,8 +73,8 @@ while it is plugged in.
    ```
 
    Logs are kept only on the Mac mini in `~/Library/Logs/streamlit-keep-alive.log`
-   and `~/Library/Logs/streamlit-keep-alive-error.log`. If the Safari session
-   expires, sign in normally in Safari again.
+   and `~/Library/Logs/streamlit-keep-alive-error.log`. If the Chrome session
+   expires, sign in normally in Chrome again.
 
 ## Managing targets
 
