@@ -127,7 +127,10 @@ async def establish_login(context: BrowserContext, urls: list[str]) -> int:
         await page.goto(
             "https://share.streamlit.io", wait_until="domcontentloaded", timeout=NAVIGATION_TIMEOUT_MS
         )
-        await asyncio.to_thread(input, "Press Return after you have finished signing in: ")
+        loop = asyncio.get_running_loop()
+        await loop.run_in_executor(
+            None, input, "Press Return after you have finished signing in: "
+        )
         await page.goto(urls[0], wait_until="domcontentloaded", timeout=NAVIGATION_TIMEOUT_MS)
         if await login_page_visible(page):
             print("Login is still required. Nothing was saved outside this Mac.", file=sys.stderr)

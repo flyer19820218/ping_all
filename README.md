@@ -57,6 +57,9 @@ That Mac must be configured not to sleep while it is plugged in.
    .venv/bin/python -m playwright install chromium
    ```
 
+   The installer selects a Playwright version compatible with the Python already
+   installed on the Mac mini.
+
 2. Sign in **once**, through a visible Chromium window. It uses the dedicated
    local profile `~/Library/Application Support/StreamlitKeepAlive`:
 
