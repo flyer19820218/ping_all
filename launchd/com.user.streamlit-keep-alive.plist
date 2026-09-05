@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.user.streamlit-keep-alive</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>__REPOSITORY__/.venv/bin/python</string>
+    <string>__REPOSITORY__/mac_keep_alive.py</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>__REPOSITORY__</string>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <!-- Every six hours. This leaves a safety margin before Streamlit's 12-hour sleep. -->
+  <key>StartInterval</key>
+  <integer>21600</integer>
+
+  <key>StandardOutPath</key>
+  <string>__HOME__/Library/Logs/streamlit-keep-alive.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>__HOME__/Library/Logs/streamlit-keep-alive-error.log</string>
+</dict>
+</plist>
