@@ -5,12 +5,7 @@
 property targetURLs : {¬
     "https://financedailynews-mobile.streamlit.app/", ¬
     "https://financedailynews-web.streamlit.app/", ¬
-    "https://lyu-science-cloud.streamlit.app/", ¬
-    "https://ai-biology-lab.streamlit.app/", ¬
-    "https://ai-earthscience-lab.streamlit.app/", ¬
     "https://finance-daily-news.streamlit.app/", ¬
-    "https://science-truth-portal.streamlit.app/", ¬
-    "https://science-ai-lab.streamlit.app/", ¬
     "https://bookmoney-web.streamlit.app/", ¬
     "https://scienceisveryeasy-diag.streamlit.app/", ¬
     "https://claappne-mobile.streamlit.app/", ¬
